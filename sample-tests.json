@@ -6,7 +6,7 @@
     "projectKey": "COMPTEST",
     "folderPath": "/New Folder",
     "labels": ["AI"],
-    "priority": "High",
+    "priority": "2",
     "steps": [
       {
         "action": "Navigate to the login page",

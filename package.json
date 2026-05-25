@@ -1,7 +1,7 @@
 {
-  "name": "xray-test-importer",
+  "name": "forge-xray-import-mcp",
   "version": "1.0.0",
-  "description": "Jira Xray test importer Forge app using Xray GraphQL API",
+  "description": "Forge Xray Import MCP",
   "main": "src/forge.js",
   "scripts": {
     "start": "node src/index.js",
