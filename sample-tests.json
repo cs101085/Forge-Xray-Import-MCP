@@ -1,0 +1,27 @@
+[
+  {
+    "summary": "Login with valid credentials",
+    "description": "Verify that a user can log in with valid username and password",
+    "testType": "Manual",
+    "projectKey": "COMPTEST",
+    "folderPath": "/New Folder",
+    "labels": ["AI"],
+    "priority": "High",
+    "steps": [
+      {
+        "action": "Navigate to the login page",
+        "data": "URL: https://app.example.com/login",
+        "result": "Login page is displayed with username and password fields"
+      },
+      {
+        "action": "Enter valid username and password",
+        "data": "Username: testuser@example.com, Password: ****",
+        "result": "Credentials are entered in the respective fields"
+      },
+      {
+        "action": "Click the Login button",
+        "result": "User is redirected to the dashboard"
+      }
+    ]
+  }
+]

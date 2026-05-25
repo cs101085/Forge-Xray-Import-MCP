@@ -1,0 +1,24 @@
+app:
+  id: ari:cloud:ecosystem::app/2607ecd3-a4bd-4675-b990-68429285fac1
+  runtime:
+    name: nodejs22.x
+
+modules:
+  function:
+    - key: xray-import-handler
+      handler: forge.handler
+  webtrigger:
+    - key: xray-import-trigger
+      function: xray-import-handler
+      urlFormat: v2
+      response:
+        type: dynamic
+
+permissions:
+  scopes: []
+  external:
+    fetch:
+      backend:
+        - "https://xray.cloud.getxray.app"
+        - "https://eu.xray.cloud.getxray.app"
+        - "https://au.xray.cloud.getxray.app"

@@ -1,0 +1,21 @@
+{
+  "name": "xray-test-importer",
+  "version": "1.0.0",
+  "description": "Jira Xray test importer Forge app using Xray GraphQL API",
+  "main": "src/forge.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "import": "node src/index.js",
+    "deploy": "forge deploy",
+    "tunnel": "forge tunnel"
+  },
+  "dependencies": {
+    "@forge/api": "^4.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
