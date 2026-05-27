@@ -1,4 +1,41 @@
-const { importTests } = require('./importer');
+const { requestJira } = require('@forge/api');
+const { processImportBatch, extractIssueKeyFromJiraJsonField } = require('./importer');
+const { graphqlRequestRaw } = require('./graphql');
+
+/**
+ * Creates a Jira issue link between two issues using the Forge Jira REST API.
+ * Only runs inside the Forge deployed environment.
+ */
+async function addJiraIssueLink(fromIssueKey, toIssueKey, typeName) {
+  const response = await requestJira('/rest/api/3/issueLink', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type: { name: typeName },
+      inwardIssue: { key: fromIssueKey },
+      outwardIssue: { key: toIssueKey },
+    }),
+  });
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(
+      `Failed to link ${fromIssueKey} -> ${toIssueKey} (${typeName}): ${response.status} ${text}`
+    );
+  }
+}
+
+/**
+ * Maps a processImportBatch result to an HTTP response.
+ * Returns 207 Multi-Status when any item failed, 200 when all succeeded.
+ */
+function toHttpResponse(result) {
+  const hasFailures = result.failed > 0;
+  return {
+    statusCode: hasFailures ? 207 : 200,
+    headers: { 'Content-Type': ['application/json'] },
+    body: JSON.stringify({ ok: !hasFailures, ...result }),
+  };
+}
 
 /**
  * Forge web trigger handler.
@@ -27,13 +64,13 @@ exports.handler = async (request) => {
       };
     }
 
-    const results = await importTests(tests);
+    const results = await processImportBatch(tests, {
+      callXrayGraphql: graphqlRequestRaw,
+      addJiraIssueLink,
+      extractIssueKeyFromJiraJsonField,
+    });
 
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': ['application/json'] },
-      body: JSON.stringify(results),
-    };
+    return toHttpResponse(results);
   } catch (error) {
     console.error('Xray import error:', error.message);
     return {

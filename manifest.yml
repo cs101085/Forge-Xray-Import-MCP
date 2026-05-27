@@ -15,10 +15,11 @@ modules:
         type: dynamic
 
 permissions:
-  scopes: []
+  scopes:
+    - write:jira-work
   external:
     fetch:
       backend:
-        - "https://xray.cloud.getxray.app"
-        - "https://eu.xray.cloud.getxray.app"
-        - "https://au.xray.cloud.getxray.app"
+        - address: https://xray.cloud.getxray.app
+        - address: https://eu.xray.cloud.getxray.app
+        - address: https://au.xray.cloud.getxray.app

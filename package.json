@@ -7,13 +7,20 @@
     "start": "node src/index.js",
     "import": "node src/index.js",
     "deploy": "forge deploy",
-    "tunnel": "forge tunnel"
+    "tunnel": "forge tunnel",
+    "test": "jest"
+  },
+  "jest": {
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   },
   "dependencies": {
     "@forge/api": "^4.0.0"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "jest": "^29.7.0"
   },
   "engines": {
     "node": ">=18.0.0"
