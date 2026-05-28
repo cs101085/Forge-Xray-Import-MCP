@@ -100,6 +100,12 @@ Each step in the `steps` array supports: `action`, `data`, `result`, `callTestIs
 
 ---
 
+
+## Permissions & Linking Pitfalls
+
+- **Forge app service account permissions:** For cross-project issue linking to work, the Forge app's service account (created automatically on install, named after the app) must have at least "Browse Projects" and "Edit Issues" permissions in all relevant Jira projects. Add it via Project Settings → People. If links fail with "issue does not exist" or "link type not found", this is the likely cause.
+- **Link type name:** The link type used for requirements is hardcoded as `"Tests"` by default. If your Jira instance uses a different name, set the `XRAY_LINK_TYPE_NAME` environment variable to override it.
+
 ## Critical Conventions & Pitfalls
 
 - **Forge handler reference:** In `manifest.yml`, the function handler must be `forge.handler` (module name without `src/`). The module name maps directly to the file basename. (Common mistake: using `src/forge.handler`.)

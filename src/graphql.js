@@ -1,3 +1,4 @@
+const { fetch } = require('@forge/api');
 const { getConfig } = require('./config');
 const { authenticate } = require('./auth');
 

@@ -1,4 +1,4 @@
-const { requestJira } = require('@forge/api');
+const { requestJira, route } = require('@forge/api');
 const { processImportBatch, extractIssueKeyFromJiraJsonField } = require('./importer');
 const { graphqlRequestRaw } = require('./graphql');
 
@@ -7,7 +7,7 @@ const { graphqlRequestRaw } = require('./graphql');
  * Only runs inside the Forge deployed environment.
  */
 async function addJiraIssueLink(fromIssueKey, toIssueKey, typeName) {
-  const response = await requestJira('/rest/api/3/issueLink', {
+  const response = await requestJira(route`/rest/api/3/issueLink`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

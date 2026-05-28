@@ -14,7 +14,9 @@ function toStringOrEmpty(value) {
 }
 
 function toArray(value) {
-  return Array.isArray(value) ? value : [];
+  if (Array.isArray(value)) return value;
+  if (value === null || value === undefined) return [];
+  return [value];
 }
 
 function firstNonEmpty(...values) {

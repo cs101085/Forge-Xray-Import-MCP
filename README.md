@@ -37,6 +37,15 @@ MCP importer tool for Xray built on Forge.
   forge webtrigger create --functionKey xray-import-trigger
   ```
 
+
+---
+
+## Permissions for Linking (Important)
+
+For cross-project issue linking to work (e.g., linking requirements in other projects), the Forge app's service account (created automatically on install, named after the app) must have at least "Browse Projects" and "Edit Issues" permissions in all relevant Jira projects. Add it via Project Settings → People. If links fail with "issue does not exist" or "link type not found", this is the likely cause.
+
+The link type used for requirements is hardcoded as `"Tests"` by default. If your Jira instance uses a different name, set the `XRAY_LINK_TYPE_NAME` environment variable to override it.
+
 Then POST your JSON tests to the generated URL:
 
 ```powershell
