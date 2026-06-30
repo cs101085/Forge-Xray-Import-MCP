@@ -191,6 +191,43 @@ describe('processImportBatch', () => {
     expect(variables.jira.fields.versions).toEqual([{ name: '1.0.0' }]);
   });
 
+  test('fixVersions supports both id and name (edge case: id-only)', async () => {
+    const callXrayGraphql = makeSuccessGql('FV-1');
+    const items = [
+      {
+        summary: 'Fix versions by id test',
+        projectKey: 'FV',
+        fixVersions: [{ id: '10100' }, { name: '2.0' }, { id: '10101', name: '2.1' }],
+        steps: [],
+      },
+    ];
+    const result = await processImportBatch(items, { callXrayGraphql });
+    expect(result.successful).toBe(1);
+    const [, variables] = callXrayGraphql.mock.calls[0];
+    expect(variables.jira.fields.fixVersions).toEqual([
+      { id: '10100' },
+      { name: '2.0' },
+      { id: '10101', name: '2.1' },
+    ]);
+  });
+
+  test('fixVersions filters out empty objects', async () => {
+    const callXrayGraphql = makeSuccessGql('FV-2');
+    const items = [
+      {
+        summary: 'Empty fixVersions test',
+        projectKey: 'FV',
+        fixVersions: [{ name: '1.0' }, {}, { id: '' }, { name: '' }],
+        steps: [],
+      },
+    ];
+    const result = await processImportBatch(items, { callXrayGraphql });
+    expect(result.successful).toBe(1);
+    const [, variables] = callXrayGraphql.mock.calls[0];
+    // Only the first valid object should remain
+    expect(variables.jira.fields.fixVersions).toEqual([{ name: '1.0' }]);
+  });
+
   test('duedate, environment, timetracking, security, parent are passed through', async () => {
     const callXrayGraphql = makeSuccessGql('DT-1');
     const items = [

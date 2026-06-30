@@ -86,8 +86,11 @@ function normalizeIncomingTest(raw) {
       : toArray(raw?.fixVersions);
 
   const fixVersions = fixVersionsRaw
-    .map((v) => ({ name: toNonEmptyString(v?.name || v) }))
-    .filter((v) => v.name);
+    .map((v) => ({
+      ...(toNonEmptyString(v?.id) ? { id: toNonEmptyString(v.id) } : {}),
+      ...(toNonEmptyString(v?.name || (typeof v === 'string' ? v : '')) ? { name: toNonEmptyString(v?.name || v) } : {}),
+    }))
+    .filter((v) => v.id || v.name);
 
   const linkedRequirementsFromUpdate = extractLinkedRequirementsFromUpdate(raw?.update);
   const linkedRequirementsFromFlat = toArray(raw?.linkedRequirements)
